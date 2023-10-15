@@ -8,17 +8,34 @@ def generate_html_listing(directories):
 
     for directory in directories:
         html += "<h2>Directory: {}</h2>".format(directory)
-    
-        # List directories
-        for dir_name in os.listdir(directory):
-            if os.path.isdir(os.path.join(directory, dir_name)):
-                html += '<li><strong>{}</strong></li>'.format(dir_name)
 
-        # List files
-        for file_name in os.listdir(directory):
-            if os.path.isfile(os.path.join(directory, file_name)):
+        # list files and directories in top level directory (alphabetic order)
+        for files_dirs in sorted(os.listdir(directory)):
+            
+            if os.path.isdir(os.path.join(directory,files_dirs)):
+                html += '<li><strong>{}</strong><ul>'.format(files_dirs)
+
+                # alphabetic order please
+                for file_name in sorted(os.listdir(os.path.join(directory,files_dirs))):
+                    if os.path.isdir(os.path.join(directory, files_dirs, file_name)):
+                        html += '<li><strong>{}</strong><ul>'.format(file_name)
+
+                        # Go another level if it's a folder
+                        for subfile in sorted(os.listdir(os.path.join(directory, files_dirs, file_name))):
+                            html += '<li><a href="{}" target="_blank">{}</a></li>'.format(
+                            os.path.join(directory, files_dirs, file_name, subfile), subfile)
+
+                        html += '</ul></li>'
+                            
+                    if os.path.isfile(os.path.join(directory, files_dirs, file_name)):
+                        html += '<li><a href="{}" target="_blank">{}</a></li>'.format(
+                        os.path.join(directory, files_dirs, file_name), file_name)
+                
+                html += '</ul></li>'
+
+            if os.path.isfile(os.path.join(directory, files_dirs)):
                 html += '<li><a href="{}" target="_blank">{}</a></li>'.format(
-                    file_name, file_name)
+                os.path.join(directory, files_dirs), files_dirs)
 
     html += "</ul></body></html>"
     return html
@@ -36,6 +53,6 @@ html_listing = generate_html_listing(directories_to_list)
 output_path = ''
 
 # Write the HTML content to a file
-output_file = output_path + 'directory_listing.html'
+output_file = output_path + 'directory-listing.html'
 with open(output_file, 'w') as f:
     f.write(html_listing)

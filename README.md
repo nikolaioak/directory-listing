@@ -32,7 +32,7 @@ This Python script generates an HTML listing of files and subdirectories within 
     ```
    - Replace /usr/bin/python3 with the path to your Python interpreter and /path/to/your/script/directory-listing.py with the actual path to your Python script.
    - Save and exit the text editor.
-8. The script will now run automatically every day at midnight and generate an HTML listing of the specified directory. Feel free to change the timing of the script, refer to 
+8. The script will now run automatically every day at midnight and generate an HTML listing of the specified directory. Feel free to change the timing of the script to your liking.
 
 ## Requirements
 

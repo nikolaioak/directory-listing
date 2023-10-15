@@ -18,9 +18,9 @@ This Python script generates an HTML listing of files and subdirectories within 
 5. Save the script.
 6. To run the script manually:
    ```bash
-   ./directory-listing.py
+   ./directory-listing.py /path/to/output/folder /path/to/directory1 /path/to/directory2 ...
    ```
-   This will generate an HTML file in the same directory as the script.
+   This will generate an HTML file in the output folder specified. To output the HTML in the same directory as the script, use ```.``` .
 7. To set up a daily cron job to run the script:
    - Open your crontab file for editing:
     ```bash
@@ -28,9 +28,9 @@ This Python script generates an HTML listing of files and subdirectories within 
     ```
    - Add the following cron job entry to run the script daily at midnight:
     ```bash
-    0 0 * * * /usr/bin/python3 /path/to/your/script/directory-listing.py
+    0 0 * * * /usr/bin/python3 /path/to/your/script/directory-listing.py /path/to/output/folder /path/to/directory1 /path/to/directory2 ...
     ```
-   - Replace ```/usr/bin/python3``` with the path to your Python interpreter and ```/path/to/your/script/directory-listing.py``` with the actual path to your Python script.
+   - Replace ```/usr/bin/python3``` with the path to your Python interpreter and ```/path/to/your/script/directory-listing.py``` with the actual path to your Python script, then the rest of the arguments as desired.
    - Save and exit the text editor.
 8. The script will now run automatically every day at midnight and generate an HTML listing of the specified directories. Feel free to change the timing of the script to your liking.
 

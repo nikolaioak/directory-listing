@@ -1,4 +1,5 @@
 import os
+import sys
 
 # Function to generate an HTML listing for a directory
 def generate_html_listing(directories):
@@ -40,19 +41,21 @@ def generate_html_listing(directories):
     html += "</ul></body></html>"
     return html
 
-# Specify the directory you want to list
-directories_to_list = [
-    '/path/to/first/directory',
-    '/path/to/second/directory'
-]
+# Check if directories were provided as command line arguments
+if len(sys.argv) < 3:
+    print("Usage: python script.py /path/to/output/folder /path/to/directory1 /path/to/directory2 ...")
+    sys.exit(1)
+
+# Get the directories from command line arguments (excluding the script name and output path)
+directories_to_list = sys.argv[2:]
 
 # Generate the HTML listing
 html_listing = generate_html_listing(directories_to_list)
 
 # Specify the output path if desired
-output_path = ''
+output_path = sys.argv[1]
 
 # Write the HTML content to a file
-output_file = output_path + 'directory-listing.html'
+output_file = output_path + '/directory-listing.html'
 with open(output_file, 'w') as f:
     f.write(html_listing)

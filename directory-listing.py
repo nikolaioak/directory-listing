@@ -1,44 +1,62 @@
 import os
 import sys
+        
+# Generator function to yield directory paths and files iteratively
+def generate_directory_contents(directory):
+    for root, dirs, files in os.walk(directory):
+        # Alphabetize
+        dirs.sort()
+        files.sort()
 
-# Function to generate an HTML listing for a directory
+        yield (os.path.relpath(root, start=directory), dirs, files)
+
+# Function to generate an HTML listing for multiple directories
 def generate_html_listing(directories):
     html = "<html><head><title>Directory Listing</title></head><body>"
     html += "<h1>Directory Listing</h1>"
-    html += "<ul>"
-
+    
     for directory in directories:
-        html += "<h2>Directory: {}</h2>".format(directory)
+        previous_nest = 0
+        current_nest = 0
+        folderName = directory.split('/')[len(directory.split('/'))-1]
+        html += "<h2>Directory: {}</h2><ul>".format(folderName)
+        
+        # List subdirectories and files iteratively
+        for path, dirs, files in generate_directory_contents(directory):
 
-        # list files and directories in top level directory (alphabetic order)
-        for files_dirs in sorted(os.listdir(directory)):
-            
-            if os.path.isdir(os.path.join(directory,files_dirs)):
-                html += '<li><strong>{}</strong><ul>'.format(files_dirs)
+            if current_nest != 0:
+                previous_nest = len(paths)
 
-                # alphabetic order please
-                for file_name in sorted(os.listdir(os.path.join(directory,files_dirs))):
-                    if os.path.isdir(os.path.join(directory, files_dirs, file_name)):
-                        html += '<li><strong>{}</strong><ul>'.format(file_name)
+            paths = path.split('/')
+            current_nest = len(paths)
 
-                        # Go another level if it's a folder
-                        for subfile in sorted(os.listdir(os.path.join(directory, files_dirs, file_name))):
-                            html += '<li><a href="{}" target="_blank">{}</a></li>'.format(
-                            os.path.join(directory, files_dirs, file_name, subfile), subfile)
+            if current_nest < previous_nest:
+                html += '</ul></li>'*(previous_nest - current_nest)
 
-                        html += '</ul></li>'
-                            
-                    if os.path.isfile(os.path.join(directory, files_dirs, file_name)):
-                        html += '<li><a href="{}" target="_blank">{}</a></li>'.format(
-                        os.path.join(directory, files_dirs, file_name), file_name)
-                
-                html += '</ul></li>'
+            if path != '.':
+                # Remove slashes to have a nested listing
+                if '/' in path:
+                    html += '<li><strong>{}</strong><ul>'.format(paths[len(paths)-1])
+                else:
+                    html += '<li><strong>{}</strong><ul>'.format(path)
 
-            if os.path.isfile(os.path.join(directory, files_dirs)):
+            # set file_count for the existence of files in directory
+            file_count = 0
+            for file_name in files:
+                file_count = 1
                 html += '<li><a href="{}" target="_blank">{}</a></li>'.format(
-                os.path.join(directory, files_dirs), files_dirs)
+                os.path.join(directory, path, file_name), file_name)
+            
+            if file_count:
+                file_count = 0
+                if len(dirs) == 0:
+                    html += '</ul></li>'              
 
-    html += "</ul></body></html>"
+            #html += '</ul>'
+        
+        html += '</ul></ul>'
+
+    html += "</body></html>"
     return html
 
 # Check if directories were provided as command line arguments

@@ -1,6 +1,6 @@
 # Directory Listing Script
 
-This Python script generates an HTML listing of files and subdirectories within an array of specified directories and saves it to an HTML file. It can be run as a cron job to create daily directory listings.
+This Python script generates an HTML listing of files and subdirectories from any number of specified directories and saves it to an HTML file. It can be run as a cron job to create daily directory listings.
 
 ## Usage
 
@@ -14,14 +14,12 @@ This Python script generates an HTML listing of files and subdirectories within 
    ```bash
    chmod +x directory-listing.py
    ```
-4. Open the script and replace the directories within the ```directories_to_list``` variable with the actual paths of the directories you want to list.
-5. Save the script.
-6. To run the script manually:
+4. To run the script manually:
    ```bash
    ./directory-listing.py /path/to/output/folder /path/to/directory1 /path/to/directory2 ...
    ```
-   This will generate an HTML file in the output folder specified. To output the HTML in the same directory as the script, use ```.``` .
-7. To set up a daily cron job to run the script:
+   This will generate an HTML file in the output folder specified. To output the HTML in the same directory as the script, use ```'.'``` .
+5. To set up a daily cron job to run the script:
    - Open your crontab file for editing:
     ```bash
     crontab -e
@@ -32,7 +30,7 @@ This Python script generates an HTML listing of files and subdirectories within 
     ```
    - Replace ```/usr/bin/python3``` with the path to your Python interpreter and ```/path/to/your/script/directory-listing.py``` with the actual path to your Python script, then the rest of the arguments as desired.
    - Save and exit the text editor.
-8. The script will now run automatically every day at midnight and generate an HTML listing of the specified directories. Feel free to change the timing of the script to your liking.
+6. The script will now run automatically every day at midnight and generate an HTML listing of the specified directories. Feel free to change the timing of the script to your liking.
 
 ## Requirements
 

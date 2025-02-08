@@ -38,7 +38,4 @@ Python 3
 
 ## License
 
-This script is licensed under the MIT License.
-   
-        
-    
+This script is licensed under GPLv3.
